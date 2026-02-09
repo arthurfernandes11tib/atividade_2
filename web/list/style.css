@@ -1,0 +1,124 @@
+/* Import shared variables */
+@import url('../style.css');
+
+body {
+    display: block;
+    min-height: 100vh;
+}
+
+header {
+    margin-bottom: 2rem;
+}
+
+h2 {
+    color: var(--text-color, #e0e0e0);
+    text-align: center;
+    margin-bottom: 3rem;
+    font-size: 2.5rem;
+    position: relative;
+    display: inline-block;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+h2::after {
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    left: 20%;
+    width: 60%;
+    height: 3px;
+    background: linear-gradient(to right, var(--primary-blue, #2962ff), var(--accent-red, #d50000));
+}
+
+.product-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 2.5rem;
+    padding-bottom: 2rem;
+}
+
+.product-card {
+    background-color: var(--card-bg, #1e1e1e);
+    border-radius: 12px;
+    padding: 1.5rem;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+    border-left: 4px solid var(--accent-red, #d50000);
+    transition: transform 0.3s, box-shadow 0.3s;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    overflow: hidden;
+}
+
+.product-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 100px;
+    height: 100px;
+    background: radial-gradient(circle at top right, rgba(213, 0, 0, 0.1), transparent 70%);
+}
+
+.product-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 20px rgba(0, 0, 0, 0.25);
+}
+
+.card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 1rem;
+}
+
+.product-category {
+    background-color: rgba(41, 98, 255, 0.1);
+    color: var(--primary-blue, #2962ff);
+    padding: 0.3rem 0.6rem;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.product-name {
+    font-size: 1.4rem;
+    margin: 0.5rem 0;
+    color: var(--text-color, #e0e0e0);
+    font-weight: 600;
+}
+
+.product-price {
+    font-size: 1.5rem;
+    color: var(--accent-red, #d50000);
+    font-weight: 700;
+    margin-bottom: 1rem;
+}
+
+.product-description {
+    color: var(--text-color, #e0e0e0);
+    opacity: 0.7;
+    font-size: 0.95rem;
+    line-height: 1.5;
+    flex-grow: 1;
+}
+
+.loading {
+    grid-column: 1 / -1;
+    text-align: center;
+    font-size: 1.5rem;
+    color: var(--text-color, #e0e0e0);
+    opacity: 0.6;
+    padding: 2rem;
+}
+
+.no-products {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 4rem;
+    background: var(--card-bg, #1e1e1e);
+    border-radius: 12px;
+}

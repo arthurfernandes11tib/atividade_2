@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="pt-br" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TechNova - Início</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <a href="index.html" class="brand">Tech<span>Nova</span></a>
+        <nav>
+            <a href="create/index.html">Cadastrar</a>
+            <a href="list/index.html">Produtos</a>
+            <button class="theme-toggle" id="themeToggle">☀️ / 🌙</button>
+        </nav>
+    </header>
+
+    <main>
+        <div class="hero">
+            <h1 class="brand" style="font-size: 4rem; margin-bottom: 1rem;">Tech<span>Nova</span></h1>
+            <p class="slogan">Inovação em cada pixel, tecnologia em cada detalhe.</p>
+        </div>
+
+        <div class="cards-container">
+            <a href="create/index.html" class="card">
+                <h2>Cadastrar Novo Produto</h2>
+                <p>Adicione novos itens ao catálogo com facilidade e rapidez.</p>
+            </a>
+
+            <a href="list/index.html" class="card">
+                <h2>Ver Produtos Cadastrados</h2>
+                <p>Explore nossa coleção completa de produtos disponíveis.</p>
+            </a>
+        </div>
+    </main>
+
+    <script>
+        const themeToggle = document.getElementById('themeToggle');
+        const html = document.documentElement;
+
+        // Check local storage
+        const savedTheme = localStorage.getItem('theme') || 'dark';
+        html.setAttribute('data-theme', savedTheme);
+
+        themeToggle.addEventListener('click', () => {
+            const currentTheme = html.getAttribute('data-theme');
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            
+            html.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+        });
+    </script>
+</body>
+</html>

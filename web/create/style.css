@@ -1,0 +1,111 @@
+/* Import shared variables */
+@import url('../style.css');
+
+body {
+    display: block;
+    /* Override flex from main style */
+    min-height: 100vh;
+}
+
+header {
+    margin-bottom: 2rem;
+}
+
+.form-container {
+    max-width: 600px;
+    margin: 0 auto;
+    background-color: var(--card-bg);
+    /* Use locally defined variable or rely on import if successful */
+    background-color: var(--card-bg, #1e1e1e);
+    padding: 2.5rem;
+    border-radius: 12px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    border-top: 4px solid var(--primary-blue, #2962ff);
+}
+
+h2 {
+    color: var(--text-color, #e0e0e0);
+    text-align: center;
+    margin-bottom: 2rem;
+    font-size: 2rem;
+}
+
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+label {
+    display: block;
+    margin-bottom: 0.5rem;
+    color: var(--text-color, #e0e0e0);
+    font-weight: 500;
+}
+
+input,
+textarea,
+select {
+    width: 100%;
+    padding: 1rem;
+    border-radius: 8px;
+    border: 1px solid #444;
+    background-color: var(--bg-color, #121212);
+    color: var(--text-color, #e0e0e0);
+    box-sizing: border-box;
+    font-family: inherit;
+    transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+    outline: none;
+    border-color: var(--primary-blue, #2962ff);
+    box-shadow: 0 0 0 2px rgba(41, 98, 255, 0.2);
+}
+
+button[type="submit"] {
+    background: linear-gradient(to right, var(--primary-blue, #2962ff), #0039cb);
+    color: white;
+    padding: 1rem;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    width: 100%;
+    font-size: 1.1rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+button[type="submit"]:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Success Message Overlay */
+.success-message {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background-color: #00c853;
+    color: white;
+    padding: 1rem 2rem;
+    border-radius: 5px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    display: none;
+    animation: slideIn 0.3s ease-out;
+    z-index: 1000;
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}

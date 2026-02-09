@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="pt-br" data-theme="dark">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TechNova - Produtos</title>
+    <link rel="stylesheet" href="../style.css"> <!-- Base styles -->
+    <link rel="stylesheet" href="style.css"> <!-- Page specific styles -->
+</head>
+
+<body>
+    <header>
+        <a href="../index.html" class="brand">Tech<span>Nova</span></a>
+        <nav>
+            <a href="../create/index.html">Cadastrar</a>
+            <a href="index.html" style="color: var(--primary-blue);">Produtos</a>
+            <button class="theme-toggle" id="themeToggle">☀️ / 🌙</button>
+        </nav>
+    </header>
+
+    <main>
+        <h2>Catálogo de Produtos</h2>
+
+        <div class="product-grid" id="productGrid">
+            <div class="loading">Carregando produtos...</div>
+        </div>
+    </main>
+
+    <script>
+        // Theme Logic
+        const themeToggle = document.getElementById('themeToggle');
+        const html = document.documentElement;
+
+        const savedTheme = localStorage.getItem('theme') || 'dark';
+        html.setAttribute('data-theme', savedTheme);
+
+        themeToggle.addEventListener('click', () => {
+            const currentTheme = html.getAttribute('data-theme');
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            html.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+        });
+
+        // Fetch Logic
+        const productGrid = document.getElementById('productGrid');
+
+        async function loadProducts() {
+            try {
+                const response = await fetch('http://localhost:3000/products');
+                if (!response.ok) throw new Error('A resposta da rede não foi ok');
+
+                const products = await response.json();
+
+                if (products.length === 0) {
+                    productGrid.innerHTML = `
+                        <div class="no-products">
+                            <h3>Nenhum produto encontrado</h3>
+                            <p>Cadastre seu primeiro produto para vê-lo aqui.</p>
+                            <a href="../create/index.html" style="color: var(--primary-blue); font-weight: bold; margin-top: 1rem; display: inline-block;">Cadastrar Agora</a>
+                        </div>`;
+                    return;
+                }
+
+                productGrid.innerHTML = products.map(product => `
+                    <div class="product-card">
+                        <div class="card-header">
+                            <span class="product-category">${product.category || 'Geral'}</span>
+                        </div>
+                        <h3 class="product-name">${product.name}</h3>
+                        <div class="product-price">R$ ${parseFloat(product.price).toFixed(2).replace('.', ',')}</div>
+                        <p class="product-description">${product.description || 'Sem descrição.'}</p>
+                    </div>
+                `).join('');
+
+            } catch (error) {
+                console.error('Error:', error);
+                productGrid.innerHTML = `
+                    <div class="loading" style="color: var(--accent-red);">
+                        Erro ao carregar produtos. Verifique se o servidor está rodando.
+                    </div>`;
+            }
+        }
+
+        loadProducts();
+    </script>
+</body>
+
+</html>
