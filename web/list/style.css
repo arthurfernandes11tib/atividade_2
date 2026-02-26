@@ -145,3 +145,32 @@ h2::after {
 .delete-btn:active {
     transform: scale(0.97);
 }
+
+.card-actions {
+    display: flex;
+    gap: 0.6rem;
+    margin-top: 1.2rem;
+}
+
+.edit-btn {
+    display: inline-block;
+    padding: 0.5rem 1rem;
+    background-color: var(--primary-blue, #2962ff);
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    text-decoration: none;
+    transition: background-color 0.2s, transform 0.1s;
+}
+
+.edit-btn:hover {
+    background-color: #0039cb;
+    transform: scale(1.03);
+}
+
+.edit-btn:active {
+    transform: scale(0.97);
+}

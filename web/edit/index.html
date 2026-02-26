@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="pt-br" data-theme="dark">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TechNova - Editar Produto</title>
+    <link rel="stylesheet" href="../style.css"> <!-- Base styles -->
+    <link rel="stylesheet" href="../create/style.css"> <!-- Reuse create page styles -->
+    <link rel="stylesheet" href="style.css"> <!-- Override styles -->
+</head>
+
+<body>
+    <header>
+        <a href="../index.html" class="brand">Tech<span>Nova</span></a>
+        <nav>
+            <a href="../create/index.html">Cadastrar</a>
+            <a href="../list/index.html">Produtos</a>
+            <button class="theme-toggle" id="themeToggle">☀️ / 🌙</button>
+        </nav>
+    </header>
+
+    <main>
+        <div class="form-container">
+            <h2>✏️ Editar Produto</h2>
+            <form id="editProductForm">
+                <div class="form-group">
+                    <label for="name">Nome do Produto</label>
+                    <input type="text" id="name" name="name" required placeholder="Ex: Smartphone XYZ">
+                </div>
+
+                <div class="form-group">
+                    <label for="price">Preço (R$)</label>
+                    <input type="number" id="price" name="price" step="0.01" required placeholder="0.00">
+                </div>
+
+                <div class="form-group">
+                    <label for="category">Categoria</label>
+                    <input type="text" id="category" name="category" list="categories"
+                        placeholder="Selecione ou digite">
+                    <datalist id="categories">
+                        <option value="Eletrônicos">
+                        <option value="Periféricos">
+                        <option value="Hardware">
+                        <option value="Software">
+                    </datalist>
+                </div>
+
+                <div class="form-group">
+                    <label for="description">Descrição</label>
+                    <textarea id="description" name="description" rows="4"
+                        placeholder="Detalhes do produto..."></textarea>
+                </div>
+
+                <button type="submit">Salvar Alterações</button>
+            </form>
+        </div>
+    </main>
+
+    <div id="successMessage" class="success-message">
+        Produto atualizado com sucesso! Redirecionando...
+    </div>
+
+    <script>
+        // Theme Logic
+        const themeToggle = document.getElementById('themeToggle');
+        const html = document.documentElement;
+        const savedTheme = localStorage.getItem('theme') || 'dark';
+        html.setAttribute('data-theme', savedTheme);
+        themeToggle.addEventListener('click', () => {
+            const currentTheme = html.getAttribute('data-theme');
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            html.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+        });
+
+        // Get product id from URL
+        const params = new URLSearchParams(window.location.search);
+        const productId = params.get('id');
+
+        if (!productId) {
+            alert('Produto não especificado.');
+            window.location.href = '../list/index.html';
+        }
+
+        // Pre-fill form with existing product data
+        async function loadProduct() {
+            try {
+                const response = await fetch(`http://localhost:3000/products/${productId}`);
+                if (!response.ok) throw new Error('Produto não encontrado');
+                const product = await response.json();
+
+                document.getElementById('name').value = product.name;
+                document.getElementById('price').value = product.price;
+                document.getElementById('category').value = product.category || '';
+                document.getElementById('description').value = product.description || '';
+            } catch (error) {
+                alert('Erro ao carregar produto: ' + error.message);
+                window.location.href = '../list/index.html';
+            }
+        }
+
+        loadProduct();
+
+        // Submit form — PUT request
+        const form = document.getElementById('editProductForm');
+        const successMessage = document.getElementById('successMessage');
+
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const formData = {
+                name: document.getElementById('name').value,
+                price: parseFloat(document.getElementById('price').value),
+                category: document.getElementById('category').value,
+                description: document.getElementById('description').value
+            };
+
+            try {
+                const response = await fetch(`http://localhost:3000/products/${productId}`, {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(formData)
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    successMessage.style.display = 'block';
+                    setTimeout(() => {
+                        window.location.href = '../list/index.html';
+                    }, 2000);
+                } else {
+                    alert('Erro ao atualizar: ' + (data.message || 'Erro desconhecido'));
+                }
+            } catch (error) {
+                alert('Erro na conexão com o servidor.');
+                console.error(error);
+            }
+        });
+    </script>
+</body>
+
+</html>

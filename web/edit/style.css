@@ -1,0 +1,8 @@
+/* Edit page overrides */
+.form-container {
+    border-top-color: var(--accent-red, #d50000);
+}
+
+h2 {
+    font-size: 1.8rem;
+}
